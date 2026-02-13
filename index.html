@@ -43,41 +43,64 @@
         .btn-si { background-color: #f1c6c1; color: white; display: inline-block; }
         #btnNo { background-color: #eee; color: #888; position: relative; }
         
-        /* CORAZÓN BLANCO CORREGIDO */
+        /* CORAZÓN BLANCO */
         #whiteHeart { font-size: 80px; display: block; margin: 20px 0; animation: pulse 1.5s infinite; filter: drop-shadow(0 5px 8px rgba(0,0,0,0.1)); color: white; text-shadow: 0 0 10px rgba(0,0,0,0.05); }
         @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
 
-        /* El Sobre interactivo */
-        .envelope-wrapper { position: relative; cursor: pointer; width: 280px; height: 180px; z-index: 10; }
+        /* EL SOBRE INTERACTIVO - ARREGLADO */
+        .envelope-wrapper { 
+            position: relative; cursor: pointer; 
+            width: 300px; /* Ancho del sobre */
+            height: 200px; /* Alto del sobre */
+            z-index: 10; 
+            margin: 0 auto; /* Centrar en la pantalla */
+            perspective: 1000px; /* Para el efecto 3D de la tapa */
+        }
         .envelope {
-            position: relative; width: 100%; height: 100%;
-            background-color: #d4a373; border-radius: 0 0 10px 10px;
+            position: absolute; top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-color: #d4a373; /* Cuerpo del sobre */
+            border-radius: 0 0 10px 10px;
             box-shadow: 0 10px 20px rgba(0,0,0,0.2);
         }
         /* Tapa del sobre */
         .envelope::before {
             content: ""; position: absolute; top: 0; left: 0;
             width: 0; height: 0;
-            border-left: 140px solid transparent; border-right: 140px solid transparent;
-            border-top: 100px solid #e6ccb2; /* Tapa cerrada */
+            border-left: 150px solid transparent; /* Mitad del ancho */
+            border-right: 150px solid transparent; /* Mitad del ancho */
+            border-top: 100px solid #e6ccb2; /* Altura de la tapa */
             transform-origin: top; transition: transform 0.5s 0.3s; z-index: 3;
+            border-radius: 10px 10px 0 0; /* Bordes redondeados de la tapa */
         }
         .open .envelope::before { transform: rotateX(180deg); z-index: 1; }
 
-        /* La Carta que sube como en tu dibujo */
+        /* LA CARTA - ARREGLADO EL BUG */
         .letter {
-            position: absolute; bottom: 10px; left: 10px;
-            width: 260px; height: 160px;
-            background: white; border-radius: 5px;
+            position: absolute; 
+            bottom: 5px; /* Más cerca del borde del sobre, inicialmente */
+            left: 50%; /* Centrada horizontalmente */
+            transform: translateX(-50%); /* Ajuste para centrar */
+            width: 90%; /* Ancho de la carta dentro del sobre */
+            height: 90%; /* Altura inicial para que no se vea */
+            background: white; 
+            border-radius: 5px;
             transition: all 0.6s ease; z-index: 2;
-            padding: 20px; box-sizing: border-box; text-align: center;
+            padding: 0px 20px; /* Padding solo cuando se abre */
+            box-sizing: border-box; text-align: center;
             font-family: 'Dancing Script', cursive; color: #5a3e2b;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            overflow: hidden; /* Esto es clave para que no se vea el texto antes de tiempo */
         }
         .open .letter { 
-            height: 220px; bottom: 100px; /* Sube y crece */
+            height: 220px; /* Altura de la carta cuando está abierta */
+            bottom: 100px; /* Posición final cuando está abierta y "subida" */
+            padding: 20px; /* El padding se aplica solo al abrir */
             box-shadow: 0 -5px 15px rgba(0,0,0,0.1);
         }
+        .letter h3 { font-size: 1.5em; margin: 0 0 10px 0; }
+        .letter p { font-size: 1.1em; margin: 0; }
+
 
         .heart-rain { position: fixed; top: -20px; animation: fall 4s linear forwards; z-index: 100; font-size: 2em; }
         @keyframes fall { to { transform: translateY(110vh); opacity: 0; } }
@@ -108,8 +131,8 @@
         <div class="envelope-wrapper" onclick="this.classList.toggle('open')">
             <div class="envelope"></div>
             <div class="letter">
-                <h3 style="margin: 0; font-size: 1.5em;">Mi amor... ❤️</h3>
-                <p style="font-size: 1.1em; margin-top: 15px;">Desde aquel 19 de enero todo es mejor contigo. Te quiero mucho.</p>
+                <h3>Mi amor... ❤️</h3>
+                <p>Desde aquel 19 de enero todo es mejor contigo. Te quiero mucho.</p>
             </div>
             <p style="color: #5a3e2b; font-weight: bold; margin-top: 20px; text-align: center; width: 100%;">Toca para abrir</p>
         </div>
@@ -143,7 +166,6 @@
             b.style.left = Math.random() * 70 + 15 + '%';
             b.style.top = Math.random() * 70 + 15 + '%';
             
-            // EL BOTÓN SÍ CRECE AQUÍ
             const si = document.getElementById('btnSi');
             escalaSi += 0.25;
             si.style.transform = `scale(${escalaSi})`;
