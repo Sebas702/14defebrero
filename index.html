@@ -3,108 +3,117 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>para mi todo.</title>
+    <title>Para mi todo</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
-        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Dancing+Script:wght@600&display=swap');
 
         body {
             background-color: #f5f5dc; /* Fondo Beige */
             font-family: 'Poppins', sans-serif;
             margin: 0;
+            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
             overflow: hidden;
             color: #5a3e2b;
         }
 
         .container {
-            background: rgba(255, 255, 255, 0.85);
+            background: white;
             padding: 40px;
-            border-radius: 20px;
+            border-radius: 15px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             text-align: center;
-            max-width: 400px;
-            width: 90%;
+            width: 320px;
             position: relative;
             z-index: 10;
         }
 
-        /* Estilo para las imágenes de los links */
-        .deco-img {
+        /* Imágenes con filtro para que el blanco sea transparente sobre el beige */
+        .deco {
             position: fixed;
-            width: 220px; /* Tamaño ideal */
-            height: auto;
-            pointer-events: none;
+            width: 180px;
+            mix-blend-mode: multiply;
+            opacity: 0.9;
             z-index: 1;
-            /* Este filtro hace que el blanco de la imagen sea transparente sobre el beige */
-            mix-blend-mode: multiply; 
-            opacity: 0.8;
         }
 
-        /* Posiciones según tu dibujo */
-        .tulipan { bottom: 5%; left: 2%; transform: rotate(-5deg); }
-        .cisne { bottom: 5%; right: 2%; transform: rotate(5deg); }
-        .lirio-izq { top: 5%; left: 2%; width: 180px; }
-        .lirio-der { top: 5%; right: 2%; width: 180px; transform: scaleX(-1); }
+        /* Posiciones exactas de tus dibujos */
+        .top-left { top: 2%; left: 2%; transform: rotate(-10deg); width: 140px; }
+        .top-right { top: 2%; right: 2%; transform: rotate(10deg); width: 220px; }
+        .bot-left { bottom: 2%; left: 2%; width: 160px; }
+        .bot-right { bottom: 2%; right: 2%; width: 160px; transform: scaleX(-1); }
 
         .hidden { display: none !important; }
 
-        h1, h2 { font-family: 'Dancing Script', cursive; color: #d4a373; margin-top: 0; }
-        h1 { font-size: 2.2em; }
-        
-        #whiteHeart { font-size: 90px; display: block; margin: 10px 0; animation: pulse 1.5s infinite; }
-        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+        /* Estilo del Lazo Beige (Página 3) */
+        .lazo {
+            width: 100px;
+            height: 40px;
+            background: #e6ccb2; /* Color lazo beige */
+            margin: -60px auto 20px auto;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
 
-        input { padding: 12px; border: 1px solid #ddd; border-radius: 10px; width: 80%; margin-bottom: 20px; text-align: center; font-size: 1em; }
+        h1, h2 { font-family: 'Dancing Script', cursive; color: #d4a373; margin: 0 0 10px 0; }
+        input { padding: 12px; border: 1px solid #ddd; border-radius: 10px; width: 85%; margin: 15px 0; text-align: center; font-size: 1em; }
         
         button { padding: 12px 25px; border-radius: 50px; border: none; cursor: pointer; font-weight: bold; transition: 0.3s; }
-        #btnSi { background-color: #f1c6c1; color: white; font-size: 1.2em; }
+        .btn-si { background-color: #f1c6c1; color: white; font-size: 1.1em; }
         #btnNo { background-color: #eee; color: #888; }
 
+        #whiteHeart { font-size: 80px; display: block; margin: 15px 0; animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+
         .heart-rain { position: fixed; top: -20px; animation: fall 4s linear forwards; z-index: 5; }
-        @keyframes fall { to { transform: translateY(110vh) rotate(360deg); opacity: 0; } }
+        @keyframes fall { to { transform: translateY(110vh); opacity: 0; } }
     </style>
 </head>
 <body>
 
-    <div id="pantalla1" class="container">
-        <img class="deco-img tulipan" src="https://i.pinimg.com/originals/07/80/7e/07807e32483866bb07d7237077a7ce0d.jpg" alt="tulipan">
-        <img class="deco-img cisne" src="https://i.pinimg.com/originals/f5/e6/ef/f5e6ef33407efe56d8e255c42317cc2c.jpg" alt="cisne">
+    <div id="pag1" class="section">
+        <img src="https://i.pinimg.com/originals/07/80/7e/07807e32483866bb07d7237077a7ce0d.jpg" class="deco top-left">
+        <img src="https://i.pinimg.com/originals/f5/e6/ef/f5e6ef33407efe56d8e255c42317cc2c.jpg" class="deco top-right">
         
-        <h2>Ingresa nuestra fecha especial</h2>
-        <p>(Formato: DD/MM/AA)</p>
-        <input type="text" id="fechaInput" placeholder="19/01/25">
-        <br>
-        <button onclick="validarFecha()">click aquii</button>
-    </div>
-
-    <div id="pantalla2" class="container hidden">
-        <img class="deco-img lirio-izq" src="https://i.pinimg.com/originals/5f/2d/5b/5f2d5b5e2cb0785ea7263fbeb195548a.jpg" alt="lirio">
-        <img class="deco-img lirio-der" src="https://i.pinimg.com/originals/5f/2d/5b/5f2d5b5e2cb0785ea7263fbeb195548a.jpg" alt="lirio">
-        
-        <h1>¿Quieres ser mi San Valentín?</h1>
-        <span id="whiteHeart">🤍</span>
-        <div style="display: flex; justify-content: center; gap: 15px; align-items: center; min-height: 80px;">
-            <button id="btnSi" onclick="mostrarCarta()">Si</button>
-            <button id="btnNo" onmouseover="moverNo()">No (¿por que?)</button>
+        <div class="container">
+            <h2>Ingresa nuestra fecha especial</h2>
+            <p>(Formato: DD/MM/AA)</p>
+            <input type="text" id="fechaInput" placeholder="19/01/25">
+            <br>
+            <button class="btn-si" onclick="validarFecha()">click aquii</button>
         </div>
     </div>
 
-    <div id="pantalla3" class="container hidden">
-        <div style="font-style: italic; text-align: left; line-height: 1.5;">
-            <h3 style="text-align: center; font-family: 'Dancing Script', cursive; font-size: 2em;">Mi amorcito... ❤️</h3>
-            <p>Desde aquel 19 de enero, cada día a tu lado es un regalo.</p>
-            <p>Eres la persona que ilumina mis días y hace mi mundo más bonito.</p>
-            <p style="text-align: right; font-weight: bold;">Te quiero con todo mi corazón.</p>
+    <div id="pag2" class="section hidden">
+        <img src="https://i.pinimg.com/originals/5f/2d/5b/5f2d5b5e2cb0785ea7263fbeb195548a.jpg" class="deco bot-left">
+        <img src="https://i.pinimg.com/originals/5f/2d/5b/5f2d5b5e2cb0785ea7263fbeb195548a.jpg" class="deco bot-right">
+        
+        <div class="container">
+            <h1>¿Quieres ser mi San Valentín?</h1>
+            <span id="whiteHeart">🤍</span>
+            <div style="display: flex; gap: 15px; justify-content: center; align-items: center; min-height: 80px;">
+                <button id="btnSi" class="btn-si" onclick="irACarta()">Si</button>
+                <button id="btnNo" onmouseover="moverNo()">No (¿por que?)</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="pag3" class="section hidden">
+        <div class="container">
+            <div class="lazo"></div>
+            <h2 style="font-size: 2.2em;">Mi amorcito... ❤️</h2>
+            <p style="text-align: left; font-style: italic; line-height: 1.6;">
+                Desde aquel 19 de enero, cada día a tu lado es un regalo. Eres la persona que ilumina mis días.
+            </p>
+            <p style="text-align: right; font-weight: bold; margin-top: 20px;">Te quiero con todo mi corazón.</p>
         </div>
     </div>
 
     <script>
         function lluvia() {
-            for(let i=0; i<50; i++) {
+            for(let i=0; i<30; i++) {
                 let h = document.createElement("div");
                 h.innerHTML = "❤️";
                 h.className = "heart-rain";
@@ -116,30 +125,32 @@
         }
 
         function validarFecha() {
-            if(document.getElementById("fechaInput").value === "19/01/25") {
+            const input = document.getElementById("fechaInput").value;
+            if(input === "19/01/25") {
                 lluvia();
-                document.getElementById("pantalla1").classList.add("hidden");
-                document.getElementById("pantalla2").classList.remove("hidden");
+                document.getElementById("pag1").classList.add("hidden");
+                document.getElementById("pag2").classList.remove("hidden");
             } else {
-                alert("Esa no es la fecha, inténtalo de nuevo 🤨");
+                alert("Esa no es la fecha especial... 🤨");
             }
         }
 
         function moverNo() {
             const btn = document.getElementById("btnNo");
             btn.style.position = "fixed";
-            btn.style.left = Math.random() * 70 + 15 + "%";
-            btn.style.top = Math.random() * 70 + 15 + "%";
+            btn.style.left = Math.random() * 80 + 10 + "%";
+            btn.style.top = Math.random() * 80 + 10 + "%";
             
+            // Hacer el botón SI más grande
             let si = document.getElementById("btnSi");
             let currSize = parseFloat(window.getComputedStyle(si).fontSize);
-            if(currSize < 120) si.style.fontSize = (currSize + 5) + "px";
+            if(currSize < 80) si.style.fontSize = (currSize + 5) + "px";
         }
 
-        function mostrarCarta() {
-            document.getElementById("pantalla2").classList.add("hidden");
-            document.getElementById("pantalla3").classList.remove("hidden");
+        function irACarta() {
             lluvia();
+            document.getElementById("pag2").classList.add("hidden");
+            document.getElementById("pag3").classList.remove("hidden");
         }
     </script>
 </body>
