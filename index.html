@@ -6,17 +6,9 @@
     <title>para mi todo.</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
-        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&display=swap');
-
-        :root {
-            --beige-fondo: #f5f5dc; /* Beige suave */
-            --texto: #5a3e2b; /* Color de texto oscuro para contraste */
-            --rosa-suave: #f1c6c1; /* Rosa suave para "Sí" y sobre */
-            --gris-claro: #eeeeee; /* Gris claro para "No" */
-        }
 
         body {
-            background-color: var(--beige-fondo);
+            background-color: #f5f5dc; /* Fondo Beige */
             font-family: 'Poppins', sans-serif;
             margin: 0;
             display: flex;
@@ -24,16 +16,8 @@
             align-items: center;
             height: 100vh;
             overflow: hidden;
-            color: var(--texto);
-            font-size: 1.1em;
+            color: #5a3e2b;
         }
-
-        /* Animaciones */
-        .fade-in { animation: fadeIn 1s ease-in-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        .floating { animation: float 3s ease-in-out infinite; }
-        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 
         .container {
             background: white;
@@ -41,153 +25,128 @@
             border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             text-align: center;
-            max-width: 450px;
+            max-width: 400px;
             width: 90%;
-            z-index: 10;
             position: relative;
+            z-index: 10;
         }
+
+        /* Emojis decorativos para que no fallen las imágenes */
+        .deco {
+            position: absolute;
+            font-size: 50px;
+            pointer-events: none;
+        }
+        .p1-tulipan { top: -30px; left: -30px; transform: rotate(-15deg); }
+        .p1-cisne { top: -30px; right: -30px; transform: rotate(15deg); }
+        .p2-lirio-izq { bottom: -30px; left: -30px; }
+        .p2-lirio-der { bottom: -30px; right: -30px; }
 
         .hidden { display: none !important; }
 
-        /* DECORACIÓN CON TUS IMÁGENES DE CONTORNO NEGRO (Base64) */
-        .deco-img {
-            position: absolute;
-            width: 70px; /* Ajusta el tamaño para que se vea bien */
-            height: auto;
-            pointer-events: none; /* Para que no interfieran con clics */
-            z-index: 1; /* Para que estén detrás del contenido principal */
-        }
-        /* Posiciones para la pantalla 1 (fecha) según tu esquema */
-        #p1-tulipan { top: 20%; left: -60px; transform: rotate(-10deg); } /* Tulipán izquierda */
-        #p1-cisne { top: 20%; right: -60px; transform: rotate(10deg); } /* Cisne derecha */
-
-        /* Posiciones para la pantalla 2 (pregunta) según tu esquema */
-        #p2-flor-izq { top: 10%; left: -60px; transform: rotate(-20deg); } /* Lirio izquierda */
-        #p2-flor-der { top: 10%; right: -60px; transform: rotate(20deg) scaleX(-1); } /* Lirio derecha (invertido) */
-        
-        /* Títulos */
-        h1, h2 {
-            font-family: 'Dancing Script', cursive; /* Fuente elegante */
-            color: #d4a373; /* Color dorado/marrón para títulos */
-            margin-bottom: 15px;
-        }
-        h1 { font-size: 2.5em; }
-        h2 { font-size: 2em; }
-
-        /* Input de fecha */
         input {
             padding: 12px;
             border: 1px solid #ddd;
             border-radius: 10px;
-            width: 70%;
+            width: 80%;
             margin-bottom: 20px;
             text-align: center;
-            font-size: 1.05em;
-            color: var(--texto);
-            outline: none;
         }
-        input:focus { border-color: var(--rosa-suave); box-shadow: 0 0 8px rgba(241, 198, 193, 0.5); }
 
-        /* Botones */
         button {
-            padding: 12px 28px;
-            font-size: 17px;
+            padding: 12px 25px;
             border-radius: 50px;
             border: none;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            margin: 10px;
             font-weight: bold;
-            letter-spacing: 0.5px;
-        }
-        #btnSi { background-color: var(--rosa-suave); color: white; }
-        #btnNo { background-color: var(--gris-claro); color: #888; }
-        #btnSi:hover { transform: scale(1.1); background-color: #e0b0b0; }
-        #btnNo:hover { transform: scale(1.05); }
-
-        /* EMOJI DE CORAZÓN BLANCO */
-        #sanValentinEmoji {
-            font-size: 70px; /* Tamaño del emoji */
-            line-height: 1; /* Para centrarlo verticalmente */
-            margin-bottom: 15px;
-            display: block; /* Para que ocupe su propia línea */
+            transition: 0.3s;
         }
 
-        /* Lluvia de corazones */
-        .heart {
+        #btnSi { background-color: #f1c6c1; color: white; }
+        #btnNo { background-color: #eee; color: #888; }
+
+        .heart-rain {
             position: fixed;
             top: -20px;
-            font-size: 25px;
-            animation: fall 5s linear forwards;
-            color: #ff7a85; /* Corazones rojos */
-            pointer-events: none;
+            animation: fall 4s linear forwards;
             z-index: 5;
         }
+
         @keyframes fall {
-            to { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+            to { transform: translateY(110vh); opacity: 0; }
         }
 
-        /* Sobre y carta */
-        .envelope-wrapper { margin: 20px auto; width: 180px; height: 120px; position: relative; cursor: pointer; }
-        .envelope {
-            width: 100%; height: 100%;
-            background: var(--rosa-suave); /* Color del sobre */
-            border-radius: 0 0 10px 10px;
-            position: relative;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-        .flap {
-            position: absolute; top: 0; left: 0;
-            border-left: 90px solid transparent; border-right: 90px solid transparent;
-            border-top: 60px solid #f5b1aa; /* Color de la solapa ligeramente más oscuro */
-            transition: transform 0.6s ease-in-out;
-            transform-origin: top;
-            z-index: 2;
-        }
-        .open-flap { transform: rotateX(180deg); }
-        
-        .letter-content {
-            background: #fff;
-            padding: 25px;
-            border-radius: 15px;
-            border: 1px solid #eee;
-            margin-top: 25px;
-            font-style: italic;
-            line-height: 1.6;
-            text-align: left;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-        }
-
-        /* Estilos para el botón NO en movimiento */
-        #btnNo.moving {
-            position: fixed;
-            z-index: 20;
-        }
+        #whiteHeart { font-size: 80px; display: block; margin: 20px 0; }
     </style>
 </head>
 <body>
 
-    <div id="pantalla1" class="container fade-in">
-        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAAM1BMVEX////AwMDz8/P6+vrj4+Pr6+vk5OTs7Oz09PTa2trd3d3l5eXQ0NDm5ubIyMjv7+/x8fH7+/t5n2/dAAADUklEQVR4nO2daXviMBRGt7aJm+1S+3/Dq62N5I/TjDknx+0tB3/g8w0gAABeF+aYBAghJCEIQhCEIAhBCEIQhCAIQhCEIAhBCEIQhCAIQhCEIAhBCEIQhCAIQhCEIAhBCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhCEIAhCEIQhCAIQhC" data `index.html` file.
-> The image model failed to generate an image for the prompt: `A digital render of a sleek, modern desktop computer setup with a large, minimalist monitor displaying the webpage. On the left, a silver laptop with code editor is open, connected to the desktop. The overall aesthetic is clean, professional, and slightly warm with natural light coming from a window on the left. The webpage shown on the monitor is a beige-colored, elegant greeting page. It features a central white card with rounded corners, asking the user to "Ingresa nuestra fecha especial" (Enter our special date) with the format "(Formato: DD/MM/AA)". Below this, there's an input field with the placeholder "DD/MM/AA" and a button that says "click aquii". On the left side of this white card, subtly drawn in black outline, is a tulip image with a transparent background. On the right side, a swan image, also in black outline with a transparent background. The overall tone is sophisticated and inviting.`
-> 
-> The image model encountered an error. Please try again with a different prompt.
+    <div id="pantalla1" class="container">
+        <div class="deco p1-tulipan">🌷</div>
+        <div class="deco p1-cisne">🦢</div>
+        <h2>Ingresa nuestra fecha especial</h2>
+        <p>(Formato: DD/MM/AA)</p>
+        <input type="text" id="fechaInput" placeholder="19/01/25">
+        <br>
+        <button onclick="validarFecha()">click aquii</button>
+    </div>
 
-¡Perfecto, mi rey! Disculpa que no se vieran bien las imágenes antes. Tienes toda la razón, necesitan verse como si fueran dibujadas directamente sobre el fondo beige.
+    <div id="pantalla2" class="container hidden">
+        <div class="deco p2-lirio-izq">⚜️</div>
+        <div class="deco p2-lirio-der">⚜️</div>
+        <h1>¿Quieres ser mi San Valentín?</h1>
+        <span id="whiteHeart">🤍</span>
+        <button id="btnSi" onclick="mostrarCarta()">Si</button>
+        <button id="btnNo" onmouseover="moverNo()">No (¿por que?)</button>
+    </div>
 
-He ajustado el código para que las imágenes de los tulipanes, cisnes y lirios sean **PNGs con fondo transparente** y, además, estén integradas directamente en el código HTML con Base64 para que **siempre se vean y no dependan de enlaces externos**. El corazón blanco sigue siendo el emoji, y **todos tus textos están 100% intactos**.
+    <div id="pantalla3" class="container hidden">
+        <div style="font-style: italic; text-align: left;">
+            <h3>Mi amorcito... ❤️</h3>
+            <p>Desde aquel 19 de enero, cada día a tu lado es un regalo...</p>
+            <p>Te quiero con todo mi corazón.</p>
+        </div>
+    </div>
 
-Ahora, las imágenes se integrarán perfectamente con el fondo, como en tu dibujo.
+    <script>
+        function lluvia() {
+            for(let i=0; i<50; i++) {
+                let h = document.createElement("div");
+                h.innerHTML = "❤️";
+                h.className = "heart-rain";
+                h.style.left = Math.random() * 100 + "vw";
+                h.style.animationDuration = (Math.random() * 2 + 2) + "s";
+                document.body.appendChild(h);
+            }
+        }
 
-Aquí tienes el código `index.html` con las imágenes decorativas con fondo transparente y tus textos originales:
+        function validarFecha() {
+            if(document.getElementById("fechaInput").value === "19/01/25") {
+                lluvia();
+                setTimeout(() => {
+                    document.getElementById("pantalla1").classList.add("hidden");
+                    document.getElementById("pantalla2").classList.remove("hidden");
+                }, 1000);
+            } else {
+                alert("Espero que sea un bug del teclado eh");
+            }
+        }
 
-```html
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>para mi todo.</title>
-    <style>
-        @import url('[https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap](https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap)');
-        @import url
+        function moverNo() {
+            const btn = document.getElementById("btnNo");
+            btn.style.position = "absolute";
+            btn.style.left = Math.random() * 80 + "%";
+            btn.style.top = Math.random() * 80 + "%";
+            // El botón SI crece
+            let si = document.getElementById("btnSi");
+            let currSize = parseFloat(window.getComputedStyle(si).fontSize);
+            si.style.fontSize = (currSize + 2) + "px";
+        }
+
+        function mostrarCarta() {
+            document.getElementById("pantalla2").classList.add("hidden");
+            document.getElementById("pantalla3").classList.remove("hidden");
+        }
+    </script>
+</body>
+</html>
