@@ -6,6 +6,7 @@
     <title>para mi todo.</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&display=swap');
 
         body {
             background-color: #f5f5dc; /* Fondo Beige */
@@ -20,7 +21,7 @@
         }
 
         .container {
-            background: white;
+            background: rgba(255, 255, 255, 0.85);
             padding: 40px;
             border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
@@ -31,59 +32,48 @@
             z-index: 10;
         }
 
-        /* Emojis decorativos para que no fallen las imágenes */
-        .deco {
-            position: absolute;
-            font-size: 50px;
+        /* Estilo para las imágenes de los links */
+        .deco-img {
+            position: fixed;
+            width: 220px; /* Tamaño ideal */
+            height: auto;
             pointer-events: none;
+            z-index: 1;
+            /* Este filtro hace que el blanco de la imagen sea transparente sobre el beige */
+            mix-blend-mode: multiply; 
+            opacity: 0.8;
         }
-        .p1-tulipan { top: -30px; left: -30px; transform: rotate(-15deg); }
-        .p1-cisne { top: -30px; right: -30px; transform: rotate(15deg); }
-        .p2-lirio-izq { bottom: -30px; left: -30px; }
-        .p2-lirio-der { bottom: -30px; right: -30px; }
+
+        /* Posiciones según tu dibujo */
+        .tulipan { bottom: 5%; left: 2%; transform: rotate(-5deg); }
+        .cisne { bottom: 5%; right: 2%; transform: rotate(5deg); }
+        .lirio-izq { top: 5%; left: 2%; width: 180px; }
+        .lirio-der { top: 5%; right: 2%; width: 180px; transform: scaleX(-1); }
 
         .hidden { display: none !important; }
 
-        input {
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            width: 80%;
-            margin-bottom: 20px;
-            text-align: center;
-        }
+        h1, h2 { font-family: 'Dancing Script', cursive; color: #d4a373; margin-top: 0; }
+        h1 { font-size: 2.2em; }
+        
+        #whiteHeart { font-size: 90px; display: block; margin: 10px 0; animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
 
-        button {
-            padding: 12px 25px;
-            border-radius: 50px;
-            border: none;
-            cursor: pointer;
-            font-weight: bold;
-            transition: 0.3s;
-        }
-
-        #btnSi { background-color: #f1c6c1; color: white; }
+        input { padding: 12px; border: 1px solid #ddd; border-radius: 10px; width: 80%; margin-bottom: 20px; text-align: center; font-size: 1em; }
+        
+        button { padding: 12px 25px; border-radius: 50px; border: none; cursor: pointer; font-weight: bold; transition: 0.3s; }
+        #btnSi { background-color: #f1c6c1; color: white; font-size: 1.2em; }
         #btnNo { background-color: #eee; color: #888; }
 
-        .heart-rain {
-            position: fixed;
-            top: -20px;
-            animation: fall 4s linear forwards;
-            z-index: 5;
-        }
-
-        @keyframes fall {
-            to { transform: translateY(110vh); opacity: 0; }
-        }
-
-        #whiteHeart { font-size: 80px; display: block; margin: 20px 0; }
+        .heart-rain { position: fixed; top: -20px; animation: fall 4s linear forwards; z-index: 5; }
+        @keyframes fall { to { transform: translateY(110vh) rotate(360deg); opacity: 0; } }
     </style>
 </head>
 <body>
 
     <div id="pantalla1" class="container">
-        <div class="deco p1-tulipan">🌷</div>
-        <div class="deco p1-cisne">🦢</div>
+        <img class="deco-img tulipan" src="https://i.pinimg.com/originals/07/80/7e/07807e32483866bb07d7237077a7ce0d.jpg" alt="tulipan">
+        <img class="deco-img cisne" src="https://i.pinimg.com/originals/f5/e6/ef/f5e6ef33407efe56d8e255c42317cc2c.jpg" alt="cisne">
+        
         <h2>Ingresa nuestra fecha especial</h2>
         <p>(Formato: DD/MM/AA)</p>
         <input type="text" id="fechaInput" placeholder="19/01/25">
@@ -92,19 +82,23 @@
     </div>
 
     <div id="pantalla2" class="container hidden">
-        <div class="deco p2-lirio-izq">⚜️</div>
-        <div class="deco p2-lirio-der">⚜️</div>
+        <img class="deco-img lirio-izq" src="https://i.pinimg.com/originals/5f/2d/5b/5f2d5b5e2cb0785ea7263fbeb195548a.jpg" alt="lirio">
+        <img class="deco-img lirio-der" src="https://i.pinimg.com/originals/5f/2d/5b/5f2d5b5e2cb0785ea7263fbeb195548a.jpg" alt="lirio">
+        
         <h1>¿Quieres ser mi San Valentín?</h1>
         <span id="whiteHeart">🤍</span>
-        <button id="btnSi" onclick="mostrarCarta()">Si</button>
-        <button id="btnNo" onmouseover="moverNo()">No (¿por que?)</button>
+        <div style="display: flex; justify-content: center; gap: 15px; align-items: center; min-height: 80px;">
+            <button id="btnSi" onclick="mostrarCarta()">Si</button>
+            <button id="btnNo" onmouseover="moverNo()">No (¿por que?)</button>
+        </div>
     </div>
 
     <div id="pantalla3" class="container hidden">
-        <div style="font-style: italic; text-align: left;">
-            <h3>Mi amorcito... ❤️</h3>
-            <p>Desde aquel 19 de enero, cada día a tu lado es un regalo...</p>
-            <p>Te quiero con todo mi corazón.</p>
+        <div style="font-style: italic; text-align: left; line-height: 1.5;">
+            <h3 style="text-align: center; font-family: 'Dancing Script', cursive; font-size: 2em;">Mi amorcito... ❤️</h3>
+            <p>Desde aquel 19 de enero, cada día a tu lado es un regalo.</p>
+            <p>Eres la persona que ilumina mis días y hace mi mundo más bonito.</p>
+            <p style="text-align: right; font-weight: bold;">Te quiero con todo mi corazón.</p>
         </div>
     </div>
 
@@ -117,35 +111,35 @@
                 h.style.left = Math.random() * 100 + "vw";
                 h.style.animationDuration = (Math.random() * 2 + 2) + "s";
                 document.body.appendChild(h);
+                setTimeout(() => h.remove(), 4000);
             }
         }
 
         function validarFecha() {
             if(document.getElementById("fechaInput").value === "19/01/25") {
                 lluvia();
-                setTimeout(() => {
-                    document.getElementById("pantalla1").classList.add("hidden");
-                    document.getElementById("pantalla2").classList.remove("hidden");
-                }, 1000);
+                document.getElementById("pantalla1").classList.add("hidden");
+                document.getElementById("pantalla2").classList.remove("hidden");
             } else {
-                alert("Espero que sea un bug del teclado eh");
+                alert("Esa no es la fecha, inténtalo de nuevo 🤨");
             }
         }
 
         function moverNo() {
             const btn = document.getElementById("btnNo");
-            btn.style.position = "absolute";
-            btn.style.left = Math.random() * 80 + "%";
-            btn.style.top = Math.random() * 80 + "%";
-            // El botón SI crece
+            btn.style.position = "fixed";
+            btn.style.left = Math.random() * 70 + 15 + "%";
+            btn.style.top = Math.random() * 70 + 15 + "%";
+            
             let si = document.getElementById("btnSi");
             let currSize = parseFloat(window.getComputedStyle(si).fontSize);
-            si.style.fontSize = (currSize + 2) + "px";
+            if(currSize < 120) si.style.fontSize = (currSize + 5) + "px";
         }
 
         function mostrarCarta() {
             document.getElementById("pantalla2").classList.add("hidden");
             document.getElementById("pantalla3").classList.remove("hidden");
+            lluvia();
         }
     </script>
 </body>
