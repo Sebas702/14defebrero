@@ -22,6 +22,7 @@
             background-repeat: no-repeat;
         }
 
+        /* Tus fondos originales  */
         #screen1 { background-image: url('p1.png'); }
         #screen2 { background-image: url('p2.png'); }
         #screen3 { background-image: url('p3.png'); }
@@ -39,76 +40,72 @@
         input { padding: 12px; border: 1px solid #ddd; border-radius: 12px; width: 85%; margin: 15px 0; text-align: center; font-size: 1.1em; }
         
         button { padding: 14px 28px; border-radius: 50px; border: none; cursor: pointer; font-weight: bold; transition: all 0.2s ease; font-size: 1.1em; }
-        .btn-si { background-color: #f1c6c1; color: white; display: inline-block; position: relative; z-index: 11; }
-        #btnNo { background-color: #eee; color: #888; position: relative; z-index: 10; }
+        .btn-si { background-color: #f1c6c1; color: white; }
+        #btnNo { background-color: #eee; color: #888; position: relative; }
         
+        /* Corazón Blanco */
         #whiteHeart { font-size: 80px; display: block; margin: 20px 0; animation: pulse 1.5s infinite; color: white; filter: drop-shadow(0 5px 8px rgba(0,0,0,0.1)); }
         @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
 
-        /* --- SOBRE DEFINITIVO SIN BUGS --- */
-        .envelope-wrapper {
+        /* --- NUEVO SOBRE QUE SE AMPLÍA --- */
+        .envelope-container {
             position: relative;
-            width: 250px;
-            height: 180px;
-            background-color: #d4a373; /* Color base del sobre */
-            border-radius: 0 0 10px 10px;
             cursor: pointer;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-            margin-top: 50px;
+            width: 200px;
+            height: 140px;
+            background-color: #d4a373;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            transition: all 0.5s ease;
+            z-index: 5;
         }
 
-        /* La carta (escondida dentro) */
-        .letter {
+        /* Forma de la tapa cerrada */
+        .envelope-container::after {
+            content: "";
             position: absolute;
-            top: 10px;
-            left: 10px;
-            width: 230px;
-            height: 160px;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #e6ccb2;
+            clip-path: polygon(0 0, 100% 0, 50% 55%);
+            border-radius: 10px 10px 0 0;
+            transition: opacity 0.3s;
+        }
+
+        /* La carta está escondida dentro del sobre */
+        .letter-content {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            width: 320px;
+            max-width: 85%;
             background: white;
-            border-radius: 5px;
-            z-index: 1; /* Por debajo de la tapa frontal */
-            transition: all 0.7s ease;
-            padding: 20px;
-            box-sizing: border-box;
+            padding: 40px 25px;
+            border-radius: 15px;
             text-align: center;
+            box-shadow: 0 15px 45px rgba(0,0,0,0.3);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            opacity: 0;
+            z-index: 20;
             font-family: 'Dancing Script', cursive;
             color: #5a3e2b;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
 
-        /* Parte frontal del sobre (la que tapa la carta) */
-        .envelope-front {
-            position: absolute;
-            bottom: 0; left: 0;
-            width: 100%; height: 100%;
-            background-color: #d4a373;
-            clip-path: polygon(0 40%, 50% 100%, 100% 40%, 100% 100%, 0 100%);
-            z-index: 3;
-            border-radius: 0 0 10px 10px;
+        /* Cuando se abre el sobre */
+        .envelope-container.active {
+            transform: scale(1.2);
+            opacity: 0;
+            pointer-events: none;
         }
 
-        /* Tapa del sobre */
-        .flap {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background-color: #e6ccb2;
-            clip-path: polygon(0 0, 100% 0, 50% 50%);
-            z-index: 4;
-            transform-origin: top;
-            transition: transform 0.5s ease;
-        }
-
-        /* Animación al abrir */
-        .open .flap {
-            transform: rotateX(180deg);
-            z-index: 0;
-        }
-
-        .open .letter {
-            transform: translateY(-130px); /* Sube la carta */
-            height: 200px;
-            z-index: 2; /* Sigue por debajo del frontal pero sube */
+        .letter-content.active {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
         }
 
         .heart-rain { position: fixed; top: -20px; animation: fall 4s linear forwards; z-index: 100; font-size: 2em; }
@@ -138,20 +135,34 @@
 
     <div id="screen3" class="screen hidden">
         <div style="text-align:center;">
-            <p style="color: #5a3e2b; font-weight: bold; margin-bottom: 10px;">Toca para abrir ❤️</p>
-            <div class="envelope-wrapper" onclick="this.classList.toggle('open')">
-                <div class="flap"></div>
-                <div class="letter">
-                    <h3 style="margin:0;">Mi amor...</h3>
-                    <p style="font-size: 1.1em; margin-top:10px;">Desde aquel 19 de enero todo es mejor contigo. Te quiero mucho.</p>
-                </div>
-                <div class="envelope-front"></div>
+            <p id="instruccion" style="color: #5a3e2b; font-weight: bold; margin-bottom: 20px; font-size: 1.2em;">Toca el sobre ❤️</p>
+            
+            <div class="envelope-container" onclick="abrirCarta()">
+                <span style="font-size: 40px; z-index: 1;">💌</span>
+            </div>
+
+            <div id="miCarta" class="letter-content">
+                <h3 style="margin: 0; font-size: 2em;">Mi amor... ❤️</h3>
+                <p style="font-size: 1.3em; margin-top: 20px;">Desde aquel 19 de enero todo es mejor contigo. Gracias por ser como eres. Te quiero mucho.</p>
+                <button class="btn-si" style="margin-top: 25px; font-size: 0.8em;" onclick="cerrarCarta()">Cerrar</button>
             </div>
         </div>
     </div>
 
     <script>
         let escalaSi = 1;
+
+        function abrirCarta() {
+            document.querySelector('.envelope-container').classList.add('active');
+            document.getElementById('miCarta').classList.add('active');
+            document.getElementById('instruccion').style.opacity = '0';
+        }
+
+        function cerrarCarta() {
+            document.querySelector('.envelope-container').classList.remove('active');
+            document.getElementById('miCarta').classList.remove('active');
+            document.getElementById('instruccion').style.opacity = '1';
+        }
 
         function lluvia() {
             for(let i=0; i<30; i++) {
@@ -179,7 +190,7 @@
             b.style.top = Math.random() * 70 + 15 + '%';
             
             const si = document.getElementById('btnSi');
-            escalaSi += 0.3;
+            escalaSi += 0.4; // Crece más rápido
             si.style.transform = `scale(${escalaSi})`;
         }
 
