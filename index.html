@@ -7,65 +7,55 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Dancing+Script:wght@600&display=swap');
 
-        body {
-            background-color: #f5f5dc; /* Fondo Beige */
-            font-family: 'Poppins', sans-serif;
-            margin: 0;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-            color: #5a3e2b;
+        body, html {
+            margin: 0; padding: 0; height: 100vh; width: 100vw;
+            font-family: 'Poppins', sans-serif; background-color: #f5f5dc; overflow: hidden;
         }
 
-        .container {
-            background: white;
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            text-align: center;
-            width: 320px;
-            position: relative;
-            z-index: 10;
+        .screen {
+            display: flex; justify-content: center; align-items: center;
+            height: 100vh; width: 100vw; position: absolute;
+            transition: opacity 0.5s ease; 
+            background-size: cover; /* Cambiado a cover para que llene la pantalla */
+            background-repeat: no-repeat; 
+            background-position: center;
         }
 
-        /* Imágenes con filtro para que el blanco sea transparente sobre el beige */
-        .deco {
-            position: fixed;
-            width: 180px;
-            mix-blend-mode: multiply;
-            opacity: 0.9;
-            z-index: 1;
+        .hidden { opacity: 0; pointer-events: none; }
+
+        /* NOMBRES ACTUALIZADOS SEGÚN TU CAPTURA */
+        #screen1 { background-image: url('p1.png.pdf'); }
+        #screen2 { background-image: url('p2.png.pdf'); }
+        #screen3 { background-image: url('p3.png.pdf'); }
+
+        .card {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px; border-radius: 20px; text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 280px; z-index: 10;
         }
 
-        /* Posiciones exactas de tus dibujos */
-        .top-left { top: 2%; left: 2%; transform: rotate(-10deg); width: 140px; }
-        .top-right { top: 2%; right: 2%; transform: rotate(10deg); width: 220px; }
-        .bot-left { bottom: 2%; left: 2%; width: 160px; }
-        .bot-right { bottom: 2%; right: 2%; width: 160px; transform: scaleX(-1); }
-
-        .hidden { display: none !important; }
-
-        /* Estilo del Lazo Beige (Página 3) */
-        .lazo {
-            width: 100px;
-            height: 40px;
-            background: #e6ccb2; /* Color lazo beige */
-            margin: -60px auto 20px auto;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-
-        h1, h2 { font-family: 'Dancing Script', cursive; color: #d4a373; margin: 0 0 10px 0; }
-        input { padding: 12px; border: 1px solid #ddd; border-radius: 10px; width: 85%; margin: 15px 0; text-align: center; font-size: 1em; }
-        
+        h1, h2 { font-family: 'Dancing Script', cursive; color: #5a3e2b; margin: 0 0 10px 0; }
+        input { padding: 12px; border: 1px solid #ddd; border-radius: 10px; width: 80%; margin: 15px 0; text-align: center; }
         button { padding: 12px 25px; border-radius: 50px; border: none; cursor: pointer; font-weight: bold; transition: 0.3s; }
-        .btn-si { background-color: #f1c6c1; color: white; font-size: 1.1em; }
+        .btn-si { background-color: #f1c6c1; color: white; }
         #btnNo { background-color: #eee; color: #888; }
-
-        #whiteHeart { font-size: 80px; display: block; margin: 15px 0; animation: pulse 1.5s infinite; }
+        
+        #whiteHeart { font-size: 80px; display: block; margin: 10px 0; animation: pulse 1.5s infinite; }
         @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+
+        /* Estilo del sobre interactivo */
+        .envelope-container { text-align: center; z-index: 10; }
+        .envelope {
+            width: 150px; height: 100px; background: #d4a373; position: relative;
+            cursor: pointer; transition: 0.5s; margin: 0 auto;
+        }
+        .envelope.open { transform: translateY(50px); }
+        .letter {
+            position: absolute; bottom: 0; left: 5%; width: 90%; height: 0;
+            background: white; transition: 0.5s; overflow: hidden; padding: 0;
+            box-shadow: 0 -5px 10px rgba(0,0,0,0.1);
+        }
+        .envelope.open .letter { height: 140px; bottom: 80px; padding: 10px; }
 
         .heart-rain { position: fixed; top: -20px; animation: fall 4s linear forwards; z-index: 5; }
         @keyframes fall { to { transform: translateY(110vh); opacity: 0; } }
@@ -73,41 +63,34 @@
 </head>
 <body>
 
-    <div id="pag1" class="section">
-        <img src="https://i.pinimg.com/originals/07/80/7e/07807e32483866bb07d7237077a7ce0d.jpg" class="deco top-left">
-        <img src="https://i.pinimg.com/originals/f5/e6/ef/f5e6ef33407efe56d8e255c42317cc2c.jpg" class="deco top-right">
-        
-        <div class="container">
+    <div id="screen1" class="screen">
+        <div class="card">
             <h2>Ingresa nuestra fecha especial</h2>
-            <p>(Formato: DD/MM/AA)</p>
-            <input type="text" id="fechaInput" placeholder="19/01/25">
-            <br>
-            <button class="btn-si" onclick="validarFecha()">click aquii</button>
+            <input type="text" id="fecha" placeholder="19/01/25">
+            <button class="btn-si" onclick="check1()">click aquii</button>
         </div>
     </div>
 
-    <div id="pag2" class="section hidden">
-        <img src="https://i.pinimg.com/originals/5f/2d/5b/5f2d5b5e2cb0785ea7263fbeb195548a.jpg" class="deco bot-left">
-        <img src="https://i.pinimg.com/originals/5f/2d/5b/5f2d5b5e2cb0785ea7263fbeb195548a.jpg" class="deco bot-right">
-        
-        <div class="container">
+    <div id="screen2" class="screen hidden">
+        <div class="card">
             <h1>¿Quieres ser mi San Valentín?</h1>
             <span id="whiteHeart">🤍</span>
-            <div style="display: flex; gap: 15px; justify-content: center; align-items: center; min-height: 80px;">
-                <button id="btnSi" class="btn-si" onclick="irACarta()">Si</button>
-                <button id="btnNo" onmouseover="moverNo()">No (¿por que?)</button>
+            <div style="display: flex; gap: 10px; justify-content: center; align-items: center; min-height: 60px;">
+                <button id="btnSi" class="btn-si" onclick="check2()">Si</button>
+                <button id="btnNo" onmouseover="mover()">No</button>
             </div>
         </div>
     </div>
 
-    <div id="pag3" class="section hidden">
-        <div class="container">
-            <div class="lazo"></div>
-            <h2 style="font-size: 2.2em;">Mi amorcito... ❤️</h2>
-            <p style="text-align: left; font-style: italic; line-height: 1.6;">
-                Desde aquel 19 de enero, cada día a tu lado es un regalo. Eres la persona que ilumina mis días.
-            </p>
-            <p style="text-align: right; font-weight: bold; margin-top: 20px;">Te quiero con todo mi corazón.</p>
+    <div id="screen3" class="screen hidden">
+        <div class="envelope-container">
+            <p style="color: #5a3e2b; font-weight: bold;">Toca el sobre</p>
+            <div class="envelope" onclick="this.classList.toggle('open')">
+                <div class="letter">
+                    <h3 style="font-family:'Dancing Script'">Mi amorcito... ❤️</h3>
+                    <p style="font-size: 14px;">Desde el 19 de enero todo es mejor contigo. Te quiero mucho.</p>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -124,33 +107,30 @@
             }
         }
 
-        function validarFecha() {
-            const input = document.getElementById("fechaInput").value;
-            if(input === "19/01/25") {
+        function check1() {
+            if(document.getElementById('fecha').value === "19/01/25") {
                 lluvia();
-                document.getElementById("pag1").classList.add("hidden");
-                document.getElementById("pag2").classList.remove("hidden");
+                document.getElementById('screen1').classList.add('hidden');
+                document.getElementById('screen2').classList.remove('hidden');
             } else {
-                alert("Esa no es la fecha especial... 🤨");
+                alert("Fecha incorrecta...");
             }
         }
 
-        function moverNo() {
-            const btn = document.getElementById("btnNo");
-            btn.style.position = "fixed";
-            btn.style.left = Math.random() * 80 + 10 + "%";
-            btn.style.top = Math.random() * 80 + 10 + "%";
-            
-            // Hacer el botón SI más grande
-            let si = document.getElementById("btnSi");
-            let currSize = parseFloat(window.getComputedStyle(si).fontSize);
-            if(currSize < 80) si.style.fontSize = (currSize + 5) + "px";
+        function mover() {
+            const b = document.getElementById('btnNo');
+            b.style.position = 'fixed';
+            b.style.left = Math.random() * 80 + '%';
+            b.style.top = Math.random() * 80 + '%';
+            let si = document.getElementById('btnSi');
+            let size = parseFloat(window.getComputedStyle(si).fontSize);
+            si.style.fontSize = (size + 4) + "px";
         }
 
-        function irACarta() {
+        function check2() {
             lluvia();
-            document.getElementById("pag2").classList.add("hidden");
-            document.getElementById("pag3").classList.remove("hidden");
+            document.getElementById('screen2').classList.add('hidden');
+            document.getElementById('screen3').classList.remove('hidden');
         }
     </script>
 </body>
