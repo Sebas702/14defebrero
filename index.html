@@ -13,57 +13,58 @@
         }
 
         .screen {
+            position: absolute; top: 0; left: 0;
+            width: 100vw; height: 100vh;
             display: flex; justify-content: center; align-items: center;
-            height: 100vh; width: 100vw; position: absolute;
-            transition: opacity 0.5s ease; 
-            background-size: cover; /* Cambiado a cover para que llene la pantalla */
-            background-repeat: no-repeat; 
-            background-position: center;
+            transition: opacity 0.5s ease;
+        }
+
+        /* Fuerza al PDF a ocupar todo el fondo */
+        .bg-pdf {
+            position: absolute; top: 0; left: 0;
+            width: 100%; height: 100%;
+            border: none; z-index: 1;
+            pointer-events: none; /* Para que no interfiera con los clics */
         }
 
         .hidden { opacity: 0; pointer-events: none; }
 
-        /* NOMBRES ACTUALIZADOS SEGÚN TU CAPTURA */
-        #screen1 { background-image: url('p1.png.pdf'); }
-        #screen2 { background-image: url('p2.png.pdf'); }
-        #screen3 { background-image: url('p3.png.pdf'); }
-
         .card {
             background: rgba(255, 255, 255, 0.9);
             padding: 30px; border-radius: 20px; text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 280px; z-index: 10;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 280px; 
+            z-index: 10; position: relative;
         }
 
         h1, h2 { font-family: 'Dancing Script', cursive; color: #5a3e2b; margin: 0 0 10px 0; }
         input { padding: 12px; border: 1px solid #ddd; border-radius: 10px; width: 80%; margin: 15px 0; text-align: center; }
-        button { padding: 12px 25px; border-radius: 50px; border: none; cursor: pointer; font-weight: bold; transition: 0.3s; }
+        button { padding: 12px 25px; border-radius: 50px; border: none; cursor: pointer; font-weight: bold; }
         .btn-si { background-color: #f1c6c1; color: white; }
-        #btnNo { background-color: #eee; color: #888; }
         
+        #btnNo { background-color: #eee; color: #888; }
         #whiteHeart { font-size: 80px; display: block; margin: 10px 0; animation: pulse 1.5s infinite; }
         @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
 
-        /* Estilo del sobre interactivo */
-        .envelope-container { text-align: center; z-index: 10; }
+        /* Sobre interactivo */
+        .envelope-container { text-align: center; z-index: 10; position: relative; }
         .envelope {
             width: 150px; height: 100px; background: #d4a373; position: relative;
-            cursor: pointer; transition: 0.5s; margin: 0 auto;
-        }
-        .envelope.open { transform: translateY(50px); }
-        .letter {
-            position: absolute; bottom: 0; left: 5%; width: 90%; height: 0;
-            background: white; transition: 0.5s; overflow: hidden; padding: 0;
-            box-shadow: 0 -5px 10px rgba(0,0,0,0.1);
+            cursor: pointer; margin: 0 auto;
         }
         .envelope.open .letter { height: 140px; bottom: 80px; padding: 10px; }
+        .letter {
+            position: absolute; bottom: 0; left: 5%; width: 90%; height: 0;
+            background: white; transition: 0.5s; overflow: hidden;
+        }
 
-        .heart-rain { position: fixed; top: -20px; animation: fall 4s linear forwards; z-index: 5; }
+        .heart-rain { position: fixed; top: -20px; animation: fall 4s linear forwards; z-index: 100; }
         @keyframes fall { to { transform: translateY(110vh); opacity: 0; } }
     </style>
 </head>
 <body>
 
     <div id="screen1" class="screen">
+        <embed src="p1.png.pdf" class="bg-pdf">
         <div class="card">
             <h2>Ingresa nuestra fecha especial</h2>
             <input type="text" id="fecha" placeholder="19/01/25">
@@ -72,10 +73,11 @@
     </div>
 
     <div id="screen2" class="screen hidden">
+        <embed src="p2.png.pdf" class="bg-pdf">
         <div class="card">
             <h1>¿Quieres ser mi San Valentín?</h1>
             <span id="whiteHeart">🤍</span>
-            <div style="display: flex; gap: 10px; justify-content: center; align-items: center; min-height: 60px;">
+            <div style="display: flex; gap: 10px; justify-content: center; align-items: center;">
                 <button id="btnSi" class="btn-si" onclick="check2()">Si</button>
                 <button id="btnNo" onmouseover="mover()">No</button>
             </div>
@@ -83,12 +85,12 @@
     </div>
 
     <div id="screen3" class="screen hidden">
+        <embed src="p3.png.pdf" class="bg-pdf">
         <div class="envelope-container">
-            <p style="color: #5a3e2b; font-weight: bold;">Toca el sobre</p>
             <div class="envelope" onclick="this.classList.toggle('open')">
                 <div class="letter">
-                    <h3 style="font-family:'Dancing Script'">Mi amorcito... ❤️</h3>
-                    <p style="font-size: 14px;">Desde el 19 de enero todo es mejor contigo. Te quiero mucho.</p>
+                    <h3 style="font-family:'Dancing Script'">Mi amor... ❤️</h3>
+                    <p style="font-size: 14px;">Desde el 19 de enero todo es mejor. Te quiero.</p>
                 </div>
             </div>
         </div>
@@ -96,14 +98,13 @@
 
     <script>
         function lluvia() {
-            for(let i=0; i<30; i++) {
+            for(let i=0; i<20; i++) {
                 let h = document.createElement("div");
                 h.innerHTML = "❤️";
                 h.className = "heart-rain";
                 h.style.left = Math.random() * 100 + "vw";
                 h.style.animationDuration = (Math.random() * 2 + 2) + "s";
                 document.body.appendChild(h);
-                setTimeout(() => h.remove(), 4000);
             }
         }
 
@@ -112,9 +113,7 @@
                 lluvia();
                 document.getElementById('screen1').classList.add('hidden');
                 document.getElementById('screen2').classList.remove('hidden');
-            } else {
-                alert("Fecha incorrecta...");
-            }
+            } else { alert("Fecha incorrecta"); }
         }
 
         function mover() {
@@ -122,9 +121,7 @@
             b.style.position = 'fixed';
             b.style.left = Math.random() * 80 + '%';
             b.style.top = Math.random() * 80 + '%';
-            let si = document.getElementById('btnSi');
-            let size = parseFloat(window.getComputedStyle(si).fontSize);
-            si.style.fontSize = (size + 4) + "px";
+            document.getElementById('btnSi').style.fontSize = "25px";
         }
 
         function check2() {
@@ -135,3 +132,6 @@
     </script>
 </body>
 </html>
+      
+         
+       
