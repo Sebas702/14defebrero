@@ -1,105 +1,149 @@
-# 14defebrero
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Para Alguien Especial ❤️</title>
+    <title>para mi todo.</title>
     <style>
-        /* ESTILOS GENERALES (Beige y Blanco) */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&display=swap');
+
+        :root {
+            --beige-fondo: #f5f5dc; /* Beige suave */
+            --texto: #5a3e2b; /* Color de texto oscuro para contraste */
+            --rosa-suave: #f1c6c1; /* Rosa suave para "Sí" y sobre */
+            --gris-claro: #eeeeee; /* Gris claro para "No" */
+        }
+
         body {
-            background-color: #f5f5dc; /* Beige suave */
-            font-family: 'Poppins', sans-serif; /* Fuente moderna */
+            background-color: var(--beige-fondo);
+            font-family: 'Poppins', sans-serif;
             margin: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            overflow: hidden; /* Evita barras de desplazamiento al mover botones */
-            color: #5a3e2b; /* Color de texto oscuro para contraste */
+            overflow: hidden;
+            color: var(--texto);
             font-size: 1.1em;
         }
+
+        /* Animaciones */
+        .fade-in { animation: fadeIn 1s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .floating { animation: float 3s ease-in-out infinite; }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 
         .container {
             background: white;
             padding: 40px;
             border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05); /* Sombra suave */
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             text-align: center;
-            max-width: 450px; /* Ancho máximo para el contenido */
+            max-width: 450px;
             width: 90%;
-            z-index: 10; /* Asegura que esté por encima de los corazones */
-            position: relative; /* Para posicionar elementos internos si es necesario */
+            z-index: 10;
+            position: relative;
         }
 
         .hidden { display: none !important; }
 
-        /* BOTONES */
-        button {
-            padding: 12px 28px;
-            font-size: 17px;
-            border-radius: 50px; /* Botones redondos */
-            border: none;
-            cursor: pointer;
-            transition: all 0.3s ease; /* Transición suave para cambios */
-            margin: 10px;
-            font-weight: bold;
-            letter-spacing: 0.5px;
+        /* DECORACIÓN CON TUS IMÁGENES DE CONTORNO NEGRO */
+        .deco-img {
+            position: absolute;
+            width: 70px; /* Ajusta el tamaño para que se vea bien */
+            height: auto;
+            pointer-events: none; /* Para que no interfieran con clics */
+            z-index: 1; /* Para que estén detrás del contenido principal */
         }
+        /* Posiciones para la pantalla 1 (fecha) según tu esquema */
+        #p1-tulipan { top: 20%; left: -60px; transform: rotate(-10deg); } /* Tulipán izquierda */
+        #p1-cisne { top: 20%; right: -60px; transform: rotate(10deg); } /* Cisne derecha */
 
-        #btnSi { background-color: #f1c6c1; color: white; } /* Rosa suave para "Sí" */
-        #btnNo { background-color: #eeeeee; color: #888; } /* Gris claro para "No" */
-        #btnSi:hover { transform: scale(1.05); background-color: #e0b0b0; }
-        #btnNo:hover { transform: scale(1.05); }
+        /* Posiciones para la pantalla 2 (pregunta) según tu esquema */
+        #p2-flor-izq { top: 10%; left: -60px; transform: rotate(-20deg); } /* Lirio izquierda */
+        #p2-flor-der { top: 10%; right: -60px; transform: rotate(20deg) scaleX(-1); } /* Lirio derecha (invertido) */
+        
+        /* Títulos */
+        h1, h2 {
+            font-family: 'Dancing Script', cursive; /* Fuente elegante */
+            color: #d4a373; /* Color dorado/marrón para títulos */
+            margin-bottom: 15px;
+        }
+        h1 { font-size: 2.5em; }
+        h2 { font-size: 2em; }
 
+        /* Input de fecha */
         input {
             padding: 12px;
             border: 1px solid #ddd;
             border-radius: 10px;
-            width: 70%; /* Ancho del input */
+            width: 70%;
             margin-bottom: 20px;
             text-align: center;
             font-size: 1.05em;
-            color: #5a3e2b;
+            color: var(--texto);
+            outline: none;
+        }
+        input:focus { border-color: var(--rosa-suave); box-shadow: 0 0 8px rgba(241, 198, 193, 0.5); }
+
+        /* Botones */
+        button {
+            padding: 12px 28px;
+            font-size: 17px;
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            margin: 10px;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+        }
+        #btnSi { background-color: var(--rosa-suave); color: white; }
+        #btnNo { background-color: var(--gris-claro); color: #888; }
+        #btnSi:hover { transform: scale(1.1); background-color: #e0b0b0; }
+        #btnNo:hover { transform: scale(1.05); }
+
+        /* IMAGEN DEL CORAZÓN BLANCO */
+        #sanValentinImg {
+            width: 120px;
+            height: auto;
+            margin-bottom: 25px;
         }
 
-        /* LLUVIA DE CORAZONES */
+        /* Lluvia de corazones */
         .heart {
             position: fixed;
-            top: -20px; /* Empiezan fuera de la pantalla */
+            top: -20px;
             font-size: 25px;
-            animation: fall 3s linear forwards;
+            animation: fall 5s linear forwards;
             color: #ff7a85; /* Corazones rojos */
-            pointer-events: none; /* Para que no interfieran con clics */
+            pointer-events: none;
             z-index: 5;
         }
-
         @keyframes fall {
             to { transform: translateY(100vh) rotate(360deg); opacity: 0; }
         }
 
-        /* SOBRE Y CARTA */
+        /* Sobre y carta */
+        .envelope-wrapper { margin: 20px auto; width: 180px; height: 120px; position: relative; cursor: pointer; }
         .envelope {
-            width: 180px;
-            height: 120px;
-            background: #f1c6c1; /* Color del sobre */
-            margin: 20px auto;
+            width: 100%; height: 100%;
+            background: var(--rosa-suave); /* Color del sobre */
+            border-radius: 0 0 10px 10px;
             position: relative;
-            cursor: pointer;
-            border-radius: 0 0 10px 10px; /* Bordes inferiores redondeados */
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
         .flap {
-            position: absolute;
-            top: 0; left: 0;
-            border-left: 90px solid transparent; /* Mitad del ancho */
-            border-right: 90px solid transparent; /* Mitad del ancho */
+            position: absolute; top: 0; left: 0;
+            border-left: 90px solid transparent; border-right: 90px solid transparent;
             border-top: 60px solid #f5b1aa; /* Color de la solapa ligeramente más oscuro */
             transition: transform 0.6s ease-in-out;
             transform-origin: top;
+            z-index: 2;
         }
-        .open-flap { transform: rotateX(180deg); } /* Gira la solapa */
+        .open-flap { transform: rotateX(180deg); }
         
         .letter-content {
             background: #fff;
@@ -113,42 +157,44 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.05);
         }
 
-        /* IMAGEN DEL CORAZÓN BLANCO */
-        #sanValentinImg {
-            width: 120px; /* Tamaño de la imagen */
-            height: auto;
-            margin-bottom: 25px;
-        }
-
         /* Estilos para el botón NO en movimiento */
         #btnNo.moving {
-            position: fixed; /* Ojo: 'fixed' para que se mueva por toda la pantalla, no solo el container */
-            z-index: 20; /* Asegura que esté por encima de todo */
+            position: fixed;
+            z-index: 20;
         }
     </style>
 </head>
 <body>
 
-    <div id="pantalla1" class="container">
+    <div id="pantalla1" class="container fade-in">
+        <img src="https://i.ibb.co/vYV079B/tulip.png" class="deco-img" id="p1-tulipan" alt="Tulipán">
+        <img src="https://i.ibb.co/C3XWn8S/swan.png" class="deco-img" id="p1-cisne" alt="Cisne">
+
         <h2>Ingresa nuestra fecha especial</h2>
         <p>(Formato: DD/MM/AA)</p>
-        <input type="text" id="fechaInput" placeholder="19/01/25" maxlength="8">
+        <input type="text" id="fechaInput" placeholder="DD/MM/AA" maxlength="8">
         <br>
-        <button onclick="validarFecha()">Entrar ❤️</button>
+        <button onclick="validarFecha()">click aquii</button>
     </div>
 
-    <div id="pantalla2" class="container hidden">
+    <div id="pantalla2" class="container hidden fade-in">
+        <img src="https://i.ibb.co/Xz9tG1p/lily.png" class="deco-img" id="p2-flor-izq" alt="Lirio">
+        <img src="https://i.ibb.co/Xz9tG1p/lily.png" class="deco-img" id="p2-flor-der" alt="Lirio">
+
         <h1>¿Quieres ser mi San Valentín?</h1>
-        <img id="sanValentinImg" src="https://upload.wikimedia.org/wikipedia/commons/4/42/White_heart_icon.png" alt="Corazón blanco">
+        <div class="floating">
+            <img id="sanValentinImg" src="https://upload.wikimedia.org/wikipedia/commons/4/42/White_heart_icon.png" alt="Corazón blanco">
+        </div>
         <div style="margin-top: 30px; position: relative;">
-            <button id="btnSi" onclick="mostrarCarta()">¡SÍ! 😍</button>
-            <button id="btnNo" onmouseover="moverNo()" onclick="moverNo()">No 💔</button>
+            <button id="btnSi" onclick="mostrarCarta()">Si</button>
+            <button id="btnNo" onmouseover="moverNo()" onclick="moverNo()">No (¿por que?)</button>
         </div>
     </div>
 
-    <div id="pantalla3" class="container hidden">
-        <div class="envelope" onclick="abrirSobre()">
+    <div id="pantalla3" class="container hidden fade-in">
+        <div class="envelope-wrapper" onclick="abrirSobre()">
             <div id="flap" class="flap"></div>
+            <div class="envelope"></div>
         </div>
         <div id="cartaTexto" class="hidden">
             <div class="letter-content">
@@ -170,15 +216,15 @@
 
         // Función para la lluvia de corazones
         function lluvia() {
-            for (let i = 0; i < 70; i++) { // Más corazones para un efecto más bonito
+            for (let i = 0; i < 75; i++) { // Más corazones para un efecto más bonito
                 let h = document.createElement("div");
                 h.innerHTML = "❤️";
                 h.classList.add("heart");
                 h.style.left = Math.random() * 100 + "vw"; // Posición horizontal aleatoria
-                h.style.animationDuration = (Math.random() * 2 + 2.5) + "s"; // Duración de caída aleatoria
+                h.style.animationDuration = (Math.random() * 2 + 3) + "s"; // Duración de caída aleatoria
                 h.style.fontSize = (Math.random() * 15 + 15) + "px"; // Tamaño aleatorio
                 document.body.appendChild(h);
-                setTimeout(() => h.remove(), 3000); // Eliminar después de caer
+                setTimeout(() => h.remove(), 5000); // Eliminar después de caer
             }
         }
 
@@ -192,7 +238,7 @@
                     document.getElementById("pantalla2").classList.remove("hidden");
                 }, 2500); // Espera un poco más para que se vea bien la lluvia
             } else {
-                alert("Esa no es la fecha especial... ¡Piensa bien! 😉");
+                alert("Espero que sea un bug del teclado eh");
             }
         }
 
@@ -211,7 +257,7 @@
             btnNo.classList.add("moving"); // Añade una clase para los estilos de movimiento
 
             // Aumenta la escala del botón "Sí"
-            escalaSi += 0.2; // Incremento más sutil
+            escalaSi += 0.25; // Incremento más sutil
             btnSi.style.transform = `scale(${escalaSi})`;
         }
 
