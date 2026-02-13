@@ -22,7 +22,6 @@
             background-repeat: no-repeat;
         }
 
-        /* Tus fondos */
         #screen1 { background-image: url('p1.png'); }
         #screen2 { background-image: url('p2.png'); }
         #screen3 { background-image: url('p3.png'); }
@@ -40,67 +39,77 @@
         input { padding: 12px; border: 1px solid #ddd; border-radius: 12px; width: 85%; margin: 15px 0; text-align: center; font-size: 1.1em; }
         
         button { padding: 14px 28px; border-radius: 50px; border: none; cursor: pointer; font-weight: bold; transition: all 0.2s ease; font-size: 1.1em; }
-        .btn-si { background-color: #f1c6c1; color: white; display: inline-block; }
-        #btnNo { background-color: #eee; color: #888; position: relative; }
+        .btn-si { background-color: #f1c6c1; color: white; display: inline-block; position: relative; z-index: 11; }
+        #btnNo { background-color: #eee; color: #888; position: relative; z-index: 10; }
         
-        /* CORAZÓN BLANCO */
-        #whiteHeart { font-size: 80px; display: block; margin: 20px 0; animation: pulse 1.5s infinite; filter: drop-shadow(0 5px 8px rgba(0,0,0,0.1)); color: white; text-shadow: 0 0 10px rgba(0,0,0,0.05); }
+        #whiteHeart { font-size: 80px; display: block; margin: 20px 0; animation: pulse 1.5s infinite; color: white; filter: drop-shadow(0 5px 8px rgba(0,0,0,0.1)); }
         @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
 
-        /* EL SOBRE INTERACTIVO - ARREGLADO */
-        .envelope-wrapper { 
-            position: relative; cursor: pointer; 
-            width: 300px; /* Ancho del sobre */
-            height: 200px; /* Alto del sobre */
-            z-index: 10; 
-            margin: 0 auto; /* Centrar en la pantalla */
-            perspective: 1000px; /* Para el efecto 3D de la tapa */
-        }
-        .envelope {
-            position: absolute; top: 0; left: 0;
-            width: 100%; height: 100%;
-            background-color: #d4a373; /* Cuerpo del sobre */
+        /* --- SOBRE DEFINITIVO SIN BUGS --- */
+        .envelope-wrapper {
+            position: relative;
+            width: 250px;
+            height: 180px;
+            background-color: #d4a373; /* Color base del sobre */
             border-radius: 0 0 10px 10px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            cursor: pointer;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            margin-top: 50px;
         }
-        /* Tapa del sobre */
-        .envelope::before {
-            content: ""; position: absolute; top: 0; left: 0;
-            width: 0; height: 0;
-            border-left: 150px solid transparent; /* Mitad del ancho */
-            border-right: 150px solid transparent; /* Mitad del ancho */
-            border-top: 100px solid #e6ccb2; /* Altura de la tapa */
-            transform-origin: top; transition: transform 0.5s 0.3s; z-index: 3;
-            border-radius: 10px 10px 0 0; /* Bordes redondeados de la tapa */
-        }
-        .open .envelope::before { transform: rotateX(180deg); z-index: 1; }
 
-        /* LA CARTA - ARREGLADO EL BUG */
+        /* La carta (escondida dentro) */
         .letter {
-            position: absolute; 
-            bottom: 5px; /* Más cerca del borde del sobre, inicialmente */
-            left: 50%; /* Centrada horizontalmente */
-            transform: translateX(-50%); /* Ajuste para centrar */
-            width: 90%; /* Ancho de la carta dentro del sobre */
-            height: 90%; /* Altura inicial para que no se vea */
-            background: white; 
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 230px;
+            height: 160px;
+            background: white;
             border-radius: 5px;
-            transition: all 0.6s ease; z-index: 2;
-            padding: 0px 20px; /* Padding solo cuando se abre */
-            box-sizing: border-box; text-align: center;
-            font-family: 'Dancing Script', cursive; color: #5a3e2b;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            overflow: hidden; /* Esto es clave para que no se vea el texto antes de tiempo */
+            z-index: 1; /* Por debajo de la tapa frontal */
+            transition: all 0.7s ease;
+            padding: 20px;
+            box-sizing: border-box;
+            text-align: center;
+            font-family: 'Dancing Script', cursive;
+            color: #5a3e2b;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
-        .open .letter { 
-            height: 220px; /* Altura de la carta cuando está abierta */
-            bottom: 100px; /* Posición final cuando está abierta y "subida" */
-            padding: 20px; /* El padding se aplica solo al abrir */
-            box-shadow: 0 -5px 15px rgba(0,0,0,0.1);
-        }
-        .letter h3 { font-size: 1.5em; margin: 0 0 10px 0; }
-        .letter p { font-size: 1.1em; margin: 0; }
 
+        /* Parte frontal del sobre (la que tapa la carta) */
+        .envelope-front {
+            position: absolute;
+            bottom: 0; left: 0;
+            width: 100%; height: 100%;
+            background-color: #d4a373;
+            clip-path: polygon(0 40%, 50% 100%, 100% 40%, 100% 100%, 0 100%);
+            z-index: 3;
+            border-radius: 0 0 10px 10px;
+        }
+
+        /* Tapa del sobre */
+        .flap {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-color: #e6ccb2;
+            clip-path: polygon(0 0, 100% 0, 50% 50%);
+            z-index: 4;
+            transform-origin: top;
+            transition: transform 0.5s ease;
+        }
+
+        /* Animación al abrir */
+        .open .flap {
+            transform: rotateX(180deg);
+            z-index: 0;
+        }
+
+        .open .letter {
+            transform: translateY(-130px); /* Sube la carta */
+            height: 200px;
+            z-index: 2; /* Sigue por debajo del frontal pero sube */
+        }
 
         .heart-rain { position: fixed; top: -20px; animation: fall 4s linear forwards; z-index: 100; font-size: 2em; }
         @keyframes fall { to { transform: translateY(110vh); opacity: 0; } }
@@ -120,7 +129,7 @@
         <div class="card">
             <h1>¿Quieres ser mi San Valentín?</h1>
             <span id="whiteHeart">🤍</span> 
-            <div style="display: flex; gap: 15px; justify-content: center; align-items: center; min-height: 120px;">
+            <div style="display: flex; gap: 15px; justify-content: center; align-items: center; min-height: 150px;">
                 <button id="btnSi" class="btn-si" onclick="check2()">Si</button>
                 <button id="btnNo" onmouseover="mover()">No</button>
             </div>
@@ -128,13 +137,16 @@
     </div>
 
     <div id="screen3" class="screen hidden">
-        <div class="envelope-wrapper" onclick="this.classList.toggle('open')">
-            <div class="envelope"></div>
-            <div class="letter">
-                <h3>Mi amor... ❤️</h3>
-                <p>Desde aquel 19 de enero todo es mejor contigo. Te quiero mucho.</p>
+        <div style="text-align:center;">
+            <p style="color: #5a3e2b; font-weight: bold; margin-bottom: 10px;">Toca para abrir ❤️</p>
+            <div class="envelope-wrapper" onclick="this.classList.toggle('open')">
+                <div class="flap"></div>
+                <div class="letter">
+                    <h3 style="margin:0;">Mi amor...</h3>
+                    <p style="font-size: 1.1em; margin-top:10px;">Desde aquel 19 de enero todo es mejor contigo. Te quiero mucho.</p>
+                </div>
+                <div class="envelope-front"></div>
             </div>
-            <p style="color: #5a3e2b; font-weight: bold; margin-top: 20px; text-align: center; width: 100%;">Toca para abrir</p>
         </div>
     </div>
 
@@ -167,7 +179,7 @@
             b.style.top = Math.random() * 70 + 15 + '%';
             
             const si = document.getElementById('btnSi');
-            escalaSi += 0.25;
+            escalaSi += 0.3;
             si.style.transform = `scale(${escalaSi})`;
         }
 
