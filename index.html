@@ -17,12 +17,12 @@
             width: 100vw; height: 100vh;
             display: flex; justify-content: center; align-items: center;
             transition: opacity 0.5s ease;
-            background-size: cover;
+            background-size: cover; /* Para que la imagen siempre cubra la pantalla */
             background-position: center;
             background-repeat: no-repeat;
         }
 
-        /* NOMBRES LIMPIOS: p1.png, p2.png, p3.png */
+        /* Tus fondos (se mantienen los nombres p1.png, p2.png, p3.png) */
         #screen1 { background-image: url('p1.png'); }
         #screen2 { background-image: url('p2.png'); }
         #screen3 { background-image: url('p3.png'); }
@@ -30,24 +30,96 @@
         .hidden { opacity: 0; pointer-events: none; }
 
         .card {
-            background: rgba(255, 255, 255, 0.85);
-            padding: 25px; border-radius: 20px; text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 280px; z-index: 10;
+            background: rgba(255, 255, 255, 0.95); /* Menos transparencia para que se lea mejor */
+            padding: 30px; border-radius: 25px; /* Bordes más redondeados */
+            text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.15); 
+            width: 300px; max-width: 90%; z-index: 10;
         }
 
-        h1, h2 { font-family: 'Dancing Script', cursive; color: #5a3e2b; margin: 0 0 10px 0; }
-        input { padding: 12px; border: 1px solid #ddd; border-radius: 10px; width: 85%; margin: 15px 0; text-align: center; font-size: 16px; }
-        button { padding: 12px 25px; border-radius: 50px; border: none; cursor: pointer; font-weight: bold; }
-        .btn-si { background-color: #f1c6c1; color: white; }
-        #btnNo { background-color: #eee; color: #888; position: relative; }
+        h1, h2 { font-family: 'Dancing Script', cursive; color: #5a3e2b; margin: 0 0 15px 0; font-size: 2.2em; } /* Letra más mona y grande */
+        p { color: #6b4d36; font-size: 1.1em; line-height: 1.5; } /* Letra más mona */
+        input { padding: 12px; border: 1px solid #ddd; border-radius: 12px; /* Bordes redondeados */ width: 85%; margin: 15px 0; text-align: center; font-size: 1.1em; }
         
-        #whiteHeart { font-size: 70px; display: block; margin: 10px 0; animation: pulse 1.5s infinite; }
+        button { padding: 14px 28px; border-radius: 50px; border: none; cursor: pointer; font-weight: bold; transition: all 0.2s ease-in-out; font-size: 1.1em; } /* Botones más redondos y grandes */
+        .btn-si { background-color: #f1c6c1; color: white; box-shadow: 0 4px 10px rgba(241,198,193,0.4); }
+        #btnNo { background-color: #eee; color: #888; position: relative; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        
+        #whiteHeart { font-size: 80px; display: block; margin: 20px 0; animation: pulse 1.5s infinite; filter: drop-shadow(0 5px 5px rgba(0,0,0,0.1)); }
         @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
 
-        .envelope-container { text-align: center; z-index: 10; margin-top: 50px; }
-        .envelope { width: 140px; height: 90px; background: #d4a373; position: relative; cursor: pointer; margin: 0 auto; }
-        .letter { position: absolute; bottom: 0; left: 5%; width: 90%; height: 0; background: white; transition: 0.5s; overflow: hidden; }
-        .envelope.open .letter { height: 120px; bottom: 70px; padding: 10px; box-shadow: 0 -5px 10px rgba(0,0,0,0.1); }
+        /* Estilos del sobre - ARREGLADO */
+        .envelope-container { 
+            text-align: center; z-index: 10; 
+            position: relative; 
+            width: 300px; height: 200px; /* Tamaño más decente del contenedor del sobre */
+            margin-top: 50px; /* Para que quede centrado en tu diseño */
+        }
+        .envelope { 
+            width: 100%; height: 100%; /* El sobre ocupa el contenedor */
+            background: #d4a373; /* Color beige del sobre */
+            position: absolute; top: 0; left: 0;
+            border-radius: 10px; /* Bordes del sobre */
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            transition: transform 0.6s ease;
+            transform-style: preserve-3d;
+            perspective: 1000px; /* Perspectiva para el giro 3D */
+        }
+        /* Tapa del sobre */
+        .envelope::before {
+            content: '';
+            position: absolute; top: 0; left: 0;
+            width: 100%; height: 50%; /* Altura de la tapa */
+            background: #e6ccb2; /* Color más clarito para la tapa */
+            transform-origin: top;
+            transition: transform 0.6s ease;
+            border-radius: 10px 10px 0 0;
+            z-index: 2;
+            /* Forma de la tapa del sobre */
+            clip-path: polygon(0 0, 100% 0, 50% 100%); 
+        }
+
+        /* Al abrir el sobre */
+        .envelope.open {
+            transform: translateY(-50px); /* El sobre se levanta un poco */
+        }
+        .envelope.open::before {
+            transform: rotateX(180deg); /* La tapa gira hacia atrás */
+            z-index: 0; /* Para que la carta quede encima */
+        }
+
+        /* La Carta - ARREGLADA para que se vea como en tu dibujo */
+        .letter { 
+            position: absolute; 
+            bottom: 0; left: 5%; 
+            width: 90%; 
+            height: 0; /* Empieza oculta */
+            background: white; 
+            transition: height 0.6s ease, bottom 0.6s ease;
+            overflow: hidden; 
+            padding: 0px 15px; /* Relleno solo al abrir */
+            box-sizing: border-box;
+            border-radius: 8px; /* Bordes de la carta */
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            z-index: 1;
+            font-family: 'Dancing Script', cursive; /* Letra de carta */
+            color: #5a3e2b;
+            font-size: 1.2em;
+            line-height: 1.6;
+            text-align: center;
+        }
+        .envelope.open .letter { 
+            height: 200px; /* Altura de la carta desplegada */
+            bottom: 50%; /* Sube para que se vea por encima del sobre abierto */
+            transform: translateY(50%); /* Ajuste fino para centrarla */
+            padding: 15px; /* Se muestra el padding */
+        }
+        .letter h3 { font-family: 'Dancing Script', cursive; font-size: 1.8em; margin-bottom: 10px; }
+        .letter p { font-size: 1em; margin-bottom: 5px; }
+
+
+        .heart-rain { position: fixed; top: -20px; animation: fall 4s linear forwards; z-index: 100; font-size: 2em; }
+        @keyframes fall { to { transform: translateY(110vh); opacity: 0; } }
     </style>
 </head>
 <body>
@@ -55,6 +127,7 @@
     <div id="screen1" class="screen">
         <div class="card">
             <h2>Nuestra fecha especial</h2>
+            <p>Por favor, escribe la fecha en formato DD/MM/AA</p>
             <input type="text" id="fecha" placeholder="19/01/25">
             <button class="btn-si" onclick="check1()">click aquii</button>
         </div>
@@ -63,8 +136,7 @@
     <div id="screen2" class="screen hidden">
         <div class="card">
             <h1>¿Quieres ser mi San Valentín?</h1>
-            <span id="whiteHeart">🤍</span>
-            <div style="display: flex; gap: 10px; justify-content: center; align-items: center; min-height: 80px;">
+            <span id="whiteHeart">💜</span> <div style="display: flex; gap: 15px; justify-content: center; align-items: center; min-height: 90px;">
                 <button id="btnSi" class="btn-si" onclick="check2()">Si</button>
                 <button id="btnNo" onmouseover="mover()">No</button>
             </div>
@@ -73,21 +145,34 @@
 
     <div id="screen3" class="screen hidden">
         <div class="envelope-container">
+            <p style="color: #5a3e2b; font-weight: bold; margin-bottom: 15px; font-size: 1.1em;">Toca el sobre para abrirlo</p>
             <div class="envelope" onclick="this.classList.toggle('open')">
                 <div class="letter">
-                    <h3 style="font-family:'Dancing Script'">Mi amor... ❤️</h3>
-                    <p style="font-size: 13px;">Desde aquel 19 de enero todo es mejor contigo. Te quiero.</p>
+                    <h3>Mi amor... ❤️</h3>
+                    <p>Desde aquel 19 de enero, todo es mejor contigo. Gracias por estar en mi vida. Te quiero mucho.</p>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
+        function lluvia() {
+            for(let i=0; i<30; i++) {
+                let h = document.createElement("div");
+                h.innerHTML = "❤️"; h.className = "heart-rain";
+                h.style.left = Math.random() * 100 + "vw";
+                h.style.animationDuration = (Math.random() * 2 + 2) + "s";
+                document.body.appendChild(h);
+                setTimeout(() => h.remove(), 4000);
+            }
+        }
+
         function check1() {
             if(document.getElementById('fecha').value === "19/01/25") {
+                lluvia();
                 document.getElementById('screen1').classList.add('hidden');
                 document.getElementById('screen2').classList.remove('hidden');
-            } else { alert("Error en la fecha"); }
+            } else { alert("¡Uy! Esa no es la fecha. Revisa bien."); }
         }
 
         function mover() {
@@ -95,10 +180,16 @@
             b.style.position = 'fixed';
             b.style.left = Math.random() * 70 + 15 + '%';
             b.style.top = Math.random() * 70 + 15 + '%';
-            document.getElementById('btnSi').style.transform = 'scale(1.1)';
+            
+            // Botón SÍ crece más visiblemente
+            let si = document.getElementById('btnSi');
+            let currentScale = parseFloat(si.style.transform.replace('scale(', '').replace(')', '')) || 1;
+            si.style.transform = `scale(${currentScale + 0.15})`; // Crece un 15% cada vez
+            si.style.padding = `${14 + (currentScale * 2)}px ${28 + (currentScale * 4)}px`; // También se hace más grande el padding
         }
 
         function check2() {
+            lluvia();
             document.getElementById('screen2').classList.add('hidden');
             document.getElementById('screen3').classList.remove('hidden');
         }
