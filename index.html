@@ -17,12 +17,12 @@
             width: 100vw; height: 100vh;
             display: flex; justify-content: center; align-items: center;
             transition: opacity 0.5s ease;
-            background-size: contain; /* Cambiado a contain para que se vea todo tu dibujo */
+            background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            background-color: #f5f5dc;
         }
 
+        /* NOMBRES LIMPIOS: p1.png, p2.png, p3.png */
         #screen1 { background-image: url('p1.png'); }
         #screen2 { background-image: url('p2.png'); }
         #screen3 { background-image: url('p3.png'); }
@@ -30,28 +30,31 @@
         .hidden { opacity: 0; pointer-events: none; }
 
         .card {
-            background: rgba(255, 255, 255, 0.9);
-            padding: 30px; border-radius: 20px; text-align: center;
+            background: rgba(255, 255, 255, 0.85);
+            padding: 25px; border-radius: 20px; text-align: center;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 280px; z-index: 10;
         }
 
         h1, h2 { font-family: 'Dancing Script', cursive; color: #5a3e2b; margin: 0 0 10px 0; }
-        input { padding: 12px; border: 1px solid #ddd; border-radius: 10px; width: 80%; margin: 15px 0; text-align: center; }
+        input { padding: 12px; border: 1px solid #ddd; border-radius: 10px; width: 85%; margin: 15px 0; text-align: center; font-size: 16px; }
         button { padding: 12px 25px; border-radius: 50px; border: none; cursor: pointer; font-weight: bold; }
         .btn-si { background-color: #f1c6c1; color: white; }
-        #btnNo { background-color: #eee; color: #888; }
+        #btnNo { background-color: #eee; color: #888; position: relative; }
         
-        .envelope-container { text-align: center; z-index: 10; }
-        .envelope { width: 150px; height: 100px; background: #d4a373; position: relative; cursor: pointer; margin: 0 auto; }
+        #whiteHeart { font-size: 70px; display: block; margin: 10px 0; animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+
+        .envelope-container { text-align: center; z-index: 10; margin-top: 50px; }
+        .envelope { width: 140px; height: 90px; background: #d4a373; position: relative; cursor: pointer; margin: 0 auto; }
         .letter { position: absolute; bottom: 0; left: 5%; width: 90%; height: 0; background: white; transition: 0.5s; overflow: hidden; }
-        .envelope.open .letter { height: 140px; bottom: 80px; padding: 10px; box-shadow: 0 -5px 10px rgba(0,0,0,0.1); }
+        .envelope.open .letter { height: 120px; bottom: 70px; padding: 10px; box-shadow: 0 -5px 10px rgba(0,0,0,0.1); }
     </style>
 </head>
 <body>
 
     <div id="screen1" class="screen">
         <div class="card">
-            <h2>Ingresa nuestra fecha especial</h2>
+            <h2>Nuestra fecha especial</h2>
             <input type="text" id="fecha" placeholder="19/01/25">
             <button class="btn-si" onclick="check1()">click aquii</button>
         </div>
@@ -60,6 +63,7 @@
     <div id="screen2" class="screen hidden">
         <div class="card">
             <h1>¿Quieres ser mi San Valentín?</h1>
+            <span id="whiteHeart">🤍</span>
             <div style="display: flex; gap: 10px; justify-content: center; align-items: center; min-height: 80px;">
                 <button id="btnSi" class="btn-si" onclick="check2()">Si</button>
                 <button id="btnNo" onmouseover="mover()">No</button>
@@ -72,7 +76,7 @@
             <div class="envelope" onclick="this.classList.toggle('open')">
                 <div class="letter">
                     <h3 style="font-family:'Dancing Script'">Mi amor... ❤️</h3>
-                    <p>¡Feliz San Valentín!</p>
+                    <p style="font-size: 13px;">Desde aquel 19 de enero todo es mejor contigo. Te quiero.</p>
                 </div>
             </div>
         </div>
@@ -83,14 +87,17 @@
             if(document.getElementById('fecha').value === "19/01/25") {
                 document.getElementById('screen1').classList.add('hidden');
                 document.getElementById('screen2').classList.remove('hidden');
-            }
+            } else { alert("Error en la fecha"); }
         }
+
         function mover() {
             const b = document.getElementById('btnNo');
             b.style.position = 'fixed';
-            b.style.left = Math.random() * 80 + '%';
-            b.style.top = Math.random() * 80 + '%';
+            b.style.left = Math.random() * 70 + 15 + '%';
+            b.style.top = Math.random() * 70 + 15 + '%';
+            document.getElementById('btnSi').style.transform = 'scale(1.1)';
         }
+
         function check2() {
             document.getElementById('screen2').classList.add('hidden');
             document.getElementById('screen3').classList.remove('hidden');
